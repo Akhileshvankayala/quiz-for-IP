@@ -1,0 +1,31 @@
+{
+  "name": "ip-quiz-app",
+  "version": "1.0.0",
+  "description": "Interactive Single-Player Quiz Application with Java backend",
+  "main": "index.js",
+  "scripts": {
+    "build": "chmod +x build.sh && ./build.sh",
+    "start": "chmod +x start.sh && ./start.sh",
+    "dev": "npm run build && npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Akhileshvankayala/quiz-for-IP.git"
+  },
+  "keywords": [
+    "quiz",
+    "java",
+    "javascript",
+    "education",
+    "interactive"
+  ],
+  "author": "Akhileshvankayala",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Akhileshvankayala/quiz-for-IP/issues"
+  },
+  "homepage": "https://github.com/Akhileshvankayala/quiz-for-IP#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

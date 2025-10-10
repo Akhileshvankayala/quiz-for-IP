@@ -1,9 +1,9 @@
 services:
   - type: web
     name: ip-quiz-app
-    env: java
-    buildCommand: chmod +x build.sh && ./build.sh
-    startCommand: chmod +x start.sh && ./start.sh
+    env: node
+    buildCommand: yarn install && yarn build
+    startCommand: yarn start
     envVars:
       - key: PORT
         value: 10000
