@@ -1,0 +1,19 @@
+services:
+  # Option 1: Docker deployment (Recommended for Java backend)
+  - type: web
+    name: ip-quiz-app-java
+    env: docker
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: PORT
+        value: 8080
+
+  # Option 2: Node.js deployment (Alternative with Node.js backend)
+  # - type: web
+  #   name: ip-quiz-app-node
+  #   env: node
+  #   buildCommand: yarn install
+  #   startCommand: yarn start
+  #   envVars:
+  #     - key: PORT
+  #       value: 10000

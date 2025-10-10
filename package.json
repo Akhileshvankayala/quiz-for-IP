@@ -4,9 +4,11 @@
   "description": "Interactive Single-Player Quiz Application with Java backend",
   "main": "index.js",
   "scripts": {
-    "build": "chmod +x build.sh && ./build.sh",
-    "start": "chmod +x start.sh && ./start.sh",
-    "dev": "npm run build && npm start"
+    "build": "echo 'No build step needed for Node.js server'",
+    "start": "node server.js",
+    "dev": "node server.js",
+    "java-build": "chmod +x build.sh && ./build.sh",
+    "java-start": "chmod +x start.sh && ./start.sh"
   },
   "repository": {
     "type": "git",
