@@ -89,13 +89,9 @@
                 <div class="question-header">
                     <div class="difficulty-badge" id="difficulty-badge">Easy</div>
                     <div class="lifelines">
-                        <button class="lifeline-btn" id="fifty-fifty-btn" title="50-50 (Non-functional demo)">
-                            <i class="fas fa-balance-scale"></i>
+                        <button class="lifeline-btn" id="fifty-fifty-btn" title="50-50: Remove two incorrect answers">
+                            <i class="fas fa-hand-scissors"></i>
                             50-50
-                        </button>
-                        <button class="lifeline-btn" id="hint-btn" title="Hint (Non-functional demo)">
-                            <i class="fas fa-lightbulb"></i>
-                            Hint
                         </button>
                     </div>
                 </div>
@@ -176,6 +172,32 @@
                     <button id="review-btn" class="action-btn secondary">
                         <i class="fas fa-eye"></i>
                         Review Answers
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Review Screen -->
+        <div id="review-screen" class="screen">
+            <div class="review-container">
+                <div class="review-header">
+                    <i class="fas fa-clipboard-list"></i>
+                    <h2>Answer Review</h2>
+                    <p>Review all your answers and see the correct solutions</p>
+                </div>
+                
+                <div id="review-content" class="review-content">
+                    <!-- Review items will be populated here -->
+                </div>
+                
+                <div class="review-actions">
+                    <button id="back-to-results-btn" class="action-btn primary">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to Results
+                    </button>
+                    <button id="restart-from-review-btn" class="action-btn secondary">
+                        <i class="fas fa-redo"></i>
+                        Take Quiz Again
                     </button>
                 </div>
             </div>

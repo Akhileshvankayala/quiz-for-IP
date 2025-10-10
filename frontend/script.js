@@ -14,6 +14,8 @@ class QuizApp {
         this.isAnswerSubmitted = false;
         this.isLoadingQuestion = false; // Add loading lock
         this.isQuizCompleted = false; // Track quiz completion status
+        this.fiftyFiftyUsed = false; // Track if 50-50 lifeline has been used
+        this.reviewData = []; // Store quiz data for review
         
         // API base URL
         this.apiBase = '/api/quiz';
@@ -62,13 +64,18 @@ class QuizApp {
             this.reviewAnswers();
         });
         
-        // Lifeline buttons (non-functional but interactive)
-        document.getElementById('fifty-fifty-btn').addEventListener('click', () => {
-            this.showToast('50-50 lifeline is a demo feature!', 'warning');
+        // Review screen buttons
+        document.getElementById('back-to-results-btn').addEventListener('click', () => {
+            this.showScreen('results-screen');
         });
         
-        document.getElementById('hint-btn').addEventListener('click', () => {
-            this.showToast('Hint feature is a demo placeholder!', 'warning');
+        document.getElementById('restart-from-review-btn').addEventListener('click', () => {
+            this.restartQuiz();
+        });
+        
+        // Lifeline buttons - 50-50 functionality
+        document.getElementById('fifty-fifty-btn').addEventListener('click', () => {
+            this.useFiftyFifty();
         });
     }
     
@@ -133,6 +140,19 @@ class QuizApp {
         
         // Reset quiz completion status
         this.isQuizCompleted = false;
+        
+        // Reset lifeline status
+        this.fiftyFiftyUsed = false;
+        
+        // Clear review data for new quiz
+        this.reviewData = [];
+        
+        // Reset lifeline button
+        const fiftyFiftyBtn = document.getElementById('fifty-fifty-btn');
+        
+        fiftyFiftyBtn.disabled = false;
+        fiftyFiftyBtn.style.opacity = '1';
+        fiftyFiftyBtn.title = '50-50: Remove two incorrect answers';
         
         this.showLoading(true);
         
@@ -251,6 +271,7 @@ class QuizApp {
         question.options.forEach((option, index) => {
             const optionElement = document.createElement('div');
             optionElement.className = 'option';
+            optionElement.style.display = 'block'; // Ensure options are visible (reset from 50-50)
             optionElement.innerHTML = `
                 <div class="option-letter">${String.fromCharCode(65 + index)}</div>
                 <div class="option-text">${option}</div>
@@ -342,6 +363,21 @@ class QuizApp {
         const correctAnswerInfo = document.getElementById('correct-answer-info');
         const funFactText = document.getElementById('fun-fact-text');
         
+        // Store question data for review
+        const reviewItem = {
+            questionNumber: this.currentQuestion.questionNumber,
+            questionText: this.currentQuestion.questionText || this.currentQuestion.text,
+            difficulty: this.currentQuestion.difficulty,
+            options: this.currentQuestion.options,
+            userAnswer: this.selectedAnswer,
+            userAnswerText: this.currentQuestion.options[this.selectedAnswer],
+            correctAnswer: data.correctAnswer,
+            correctAnswerText: data.correctAnswerText,
+            isCorrect: data.isCorrect,
+            funFact: data.funFact
+        };
+        this.reviewData.push(reviewItem);
+        
         // Update answer feedback
         if (data.isCorrect) {
             statusElement.textContent = 'Correct! 🎉';
@@ -408,6 +444,56 @@ class QuizApp {
         // Don't increment currentQuestionIndex here - the backend already handles this
         // when the answer is submitted
         this.loadCurrentQuestion();
+    }
+    
+    // Lifeline Methods
+    useFiftyFifty() {
+        if (this.fiftyFiftyUsed) {
+            this.showToast('50-50 lifeline already used!', 'warning');
+            return;
+        }
+        
+        if (!this.currentQuestion) {
+            this.showToast('No question available!', 'error');
+            return;
+        }
+        
+        if (this.isAnswerSubmitted) {
+            this.showToast('Answer already submitted!', 'warning');
+            return;
+        }
+        
+        // Mark as used
+        this.fiftyFiftyUsed = true;
+        
+        // Disable the button
+        const fiftyFiftyBtn = document.getElementById('fifty-fifty-btn');
+        fiftyFiftyBtn.disabled = true;
+        fiftyFiftyBtn.style.opacity = '0.5';
+        fiftyFiftyBtn.title = 'Already used';
+        
+        // Get all option elements
+        const options = document.querySelectorAll('.option');
+        const correctIndex = this.currentQuestion.correctAnswer;
+        
+        // Find two incorrect options to hide
+        const incorrectIndices = [];
+        for (let i = 0; i < options.length; i++) {
+            if (i !== correctIndex) {
+                incorrectIndices.push(i);
+            }
+        }
+        
+        // Randomly select 2 incorrect options to remove
+        const shuffled = incorrectIndices.sort(() => 0.5 - Math.random());
+        const toRemove = shuffled.slice(0, 2);
+        
+        // Hide the selected incorrect options
+        toRemove.forEach(index => {
+            options[index].style.display = 'none';
+        });
+        
+        this.showToast('50-50: Two incorrect answers removed!', 'success');
     }
     
     // Timer Management
@@ -583,7 +669,16 @@ class QuizApp {
             this.selectedAnswer = null;
             this.isAnswerSubmitted = false;
             this.isQuizCompleted = false; // Reset completion status
+            this.fiftyFiftyUsed = false; // Reset lifeline
+            this.reviewData = []; // Clear review data
             this.stopTimer();
+            
+            // Reset lifeline button
+            const fiftyFiftyBtn = document.getElementById('fifty-fifty-btn');
+            
+            fiftyFiftyBtn.disabled = false;
+            fiftyFiftyBtn.style.opacity = '1';
+            fiftyFiftyBtn.title = '50-50: Remove two incorrect answers';
             
             // Clear form
             document.getElementById('player-name').value = '';
@@ -601,7 +696,61 @@ class QuizApp {
     }
     
     reviewAnswers() {
-        this.showToast('Answer review feature coming soon!', 'warning');
+        if (!this.reviewData || this.reviewData.length === 0) {
+            this.showToast('No review data available', 'warning');
+            return;
+        }
+        
+        const reviewContent = document.getElementById('review-content');
+        reviewContent.innerHTML = '';
+        
+        this.reviewData.forEach((item, index) => {
+            const reviewItem = document.createElement('div');
+            reviewItem.className = 'review-item';
+            
+            reviewItem.innerHTML = `
+                <div class="review-question-header">
+                    <span class="review-question-number">Question ${item.questionNumber}</span>
+                    <span class="difficulty-badge ${item.difficulty.toLowerCase()}">${item.difficulty}</span>
+                    <span class="review-status ${item.isCorrect ? 'correct' : 'incorrect'}">
+                        ${item.isCorrect ? '✓ Correct' : '✗ Incorrect'}
+                    </span>
+                </div>
+                
+                <div class="review-question-text">
+                    ${item.questionText}
+                </div>
+                
+                <div class="review-answers">
+                    <div class="answer-section">
+                        <h4>Your Answer:</h4>
+                        <div class="answer-option ${item.isCorrect ? 'user-correct' : 'user-incorrect'}">
+                            <span class="option-letter">${String.fromCharCode(65 + item.userAnswer)}</span>
+                            <span class="option-text">${item.userAnswerText}</span>
+                        </div>
+                    </div>
+                    
+                    ${!item.isCorrect ? `
+                    <div class="answer-section">
+                        <h4>Correct Answer:</h4>
+                        <div class="answer-option correct-answer">
+                            <span class="option-letter">${String.fromCharCode(65 + item.correctAnswer)}</span>
+                            <span class="option-text">${item.correctAnswerText}</span>
+                        </div>
+                    </div>
+                    ` : ''}
+                </div>
+                
+                <div class="review-explanation">
+                    <h4>Fun Fact:</h4>
+                    <p>${item.funFact}</p>
+                </div>
+            `;
+            
+            reviewContent.appendChild(reviewItem);
+        });
+        
+        this.showScreen('review-screen');
     }
 }
 

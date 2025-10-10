@@ -26,7 +26,7 @@ public class QuizService {
      */
     private void initializeQuestions() {
         // Question 1 - Easy
-        questions.add(new Question(1, 
+        questions.add(new Question(1,
             "What is the correct syntax for the main method in Java?",
             new String[]{
                 "public static void main(String args[])",
@@ -36,10 +36,9 @@ public class QuizService {
             },
             2, // Correct answer index
             "Fun Fact: The main method is the entry point of any Java application. The JVM calls this method when you run a Java program!",
-            "Easy"
-        ));
-        
-        // Question 2 - Easy
+            "Easy",
+            "Think about the standard Java main method signature with 'public static void' and String array parameter."
+        ));        // Question 2 - Easy
         questions.add(new Question(2,
             "Which of the following is NOT a Java primitive data type?",
             new String[]{
@@ -50,7 +49,8 @@ public class QuizService {
             },
             1, // Correct answer index
             "Fun Fact: String is actually a class in Java, not a primitive type. It's stored in the heap memory and has many useful methods!",
-            "Easy"
+            "Easy",
+            "Remember: primitives are basic data types like int, char, boolean. String is a reference type."
         ));
         
         // Question 3 - Medium
@@ -64,7 +64,8 @@ public class QuizService {
             },
             0, // Correct answer index
             "Fun Fact: In Java, string concatenation is evaluated left to right. Numbers are added until a string is encountered, then everything becomes string concatenation!",
-            "Medium"
+            "Medium",
+            "Java evaluates expressions left to right. Numbers are added first, then concatenated with strings."
         ));
         
         // Question 4 - Medium
@@ -78,7 +79,8 @@ public class QuizService {
             },
             1, // Correct answer index
             "Fun Fact: The 'final' keyword can be used with classes, methods, and variables. Final classes like String cannot be extended!",
-            "Medium"
+            "Medium",
+            "Think about which keyword stops a class from being extended by other classes."
         ));
         
         // Question 5 - Hard
@@ -92,7 +94,8 @@ public class QuizService {
             },
             0, // Correct answer index
             "Fun Fact: HashMap uses hash tables internally. In the best case, it offers O(1) insertion, but in worst case (when all keys hash to same bucket), it can degrade to O(n)!",
-            "Hard"
+            "Hard",
+            "HashMap uses hashing for fast lookups. What's the ideal performance of hash table operations?"
         ));
         
         // Question 6 - Easy
@@ -106,7 +109,8 @@ public class QuizService {
             },
             1, // Correct answer index
             "Fun Fact: Always use equals() for string comparison! The == operator compares references, not actual string content.",
-            "Easy"
+            "Easy",
+            "Remember: == compares references, but you want to compare the actual string content."
         ));
         
         // Question 7 - Medium

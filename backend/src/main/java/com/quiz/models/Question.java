@@ -11,18 +11,24 @@ public class Question {
     private int correctAnswerIndex;
     private String funFact;
     private String difficulty; // Easy, Medium, Hard
+    private String hint; // Hint for the lifeline feature
     
     public Question() {
         this.options = new String[4]; // Always 4 options for consistency
     }
     
     public Question(int id, String questionText, String[] options, int correctAnswerIndex, String funFact, String difficulty) {
+        this(id, questionText, options, correctAnswerIndex, funFact, difficulty, "Think carefully about this question.");
+    }
+    
+    public Question(int id, String questionText, String[] options, int correctAnswerIndex, String funFact, String difficulty, String hint) {
         this.id = id;
         this.questionText = questionText;
         this.options = options != null ? options : new String[4];
         this.correctAnswerIndex = correctAnswerIndex;
         this.funFact = funFact;
         this.difficulty = difficulty;
+        this.hint = hint;
     }
     
     // Getters and Setters
@@ -79,6 +85,14 @@ public class Question {
     
     public void setDifficulty(String difficulty) {
         this.difficulty = difficulty;
+    }
+    
+    public String getHint() {
+        return hint;
+    }
+    
+    public void setHint(String hint) {
+        this.hint = hint;
     }
     
     /**
