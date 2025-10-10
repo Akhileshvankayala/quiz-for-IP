@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Interactive Java Quiz - Learn & Test Your Knowledge</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+        <button id="theme-btn" class="theme-btn">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Login Screen (Non-functional placeholder) -->
+        <div id="login-screen" class="screen active">
+            <div class="login-card">
+                <div class="quiz-logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h1>Java Quiz Master</h1>
+                </div>
+                <p class="subtitle">Test your Java knowledge with our interactive quiz!</p>
+                
+                <form id="login-form" class="login-form">
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="player-name" placeholder="Enter your name (optional)" maxlength="20">
+                    </div>
+                    
+                    <button type="submit" class="start-btn">
+                        <i class="fas fa-play"></i>
+                        Start Quiz
+                    </button>
+                </form>
+                
+                <div class="quiz-info">
+                    <div class="info-item">
+                        <i class="fas fa-question-circle"></i>
+                        <span>10 Java Questions</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-clock"></i>
+                        <span>30 seconds per question</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-trophy"></i>
+                        <span>Score & Fun Facts</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="screen">
+            <!-- Quiz Header -->
+            <div class="quiz-header">
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div id="progress-fill" class="progress-fill"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span id="question-counter">1 / 10</span>
+                    </div>
+                </div>
+                
+                <div class="quiz-stats">
+                    <div class="stat">
+                        <i class="fas fa-star"></i>
+                        <span id="current-score">0</span>
+                    </div>
+                    <div class="stat timer-stat">
+                        <i class="fas fa-stopwatch"></i>
+                        <span id="timer">30</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question Card -->
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="difficulty-badge" id="difficulty-badge">Easy</div>
+                    <div class="lifelines">
+                        <button class="lifeline-btn" id="fifty-fifty-btn" title="50-50 (Non-functional demo)">
+                            <i class="fas fa-balance-scale"></i>
+                            50-50
+                        </button>
+                        <button class="lifeline-btn" id="hint-btn" title="Hint (Non-functional demo)">
+                            <i class="fas fa-lightbulb"></i>
+                            Hint
+                        </button>
+                    </div>
+                </div>
+                
+                <h2 id="question-text" class="question-text">
+                    Loading question...
+                </h2>
+                
+                <div id="options-container" class="options-container">
+                    <!-- Options will be dynamically generated -->
+                </div>
+                
+                <button id="submit-btn" class="submit-btn" disabled>
+                    <i class="fas fa-arrow-right"></i>
+                    Submit Answer
+                </button>
+            </div>
+
+            <!-- Fun Fact Modal -->
+            <div id="fun-fact-modal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 id="answer-status">Correct!</h3>
+                        <div id="correct-answer-info"></div>
+                    </div>
+                    <div class="fun-fact-content">
+                        <i class="fas fa-info-circle"></i>
+                        <p id="fun-fact-text"></p>
+                    </div>
+                    <button id="next-question-btn" class="next-btn">
+                        <i class="fas fa-forward"></i>
+                        Next Question
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="screen">
+            <div class="results-card">
+                <div class="results-header">
+                    <i class="fas fa-flag-checkered"></i>
+                    <h2>Quiz Completed!</h2>
+                </div>
+                
+                <div class="score-summary">
+                    <div class="final-score">
+                        <span class="score-label">Final Score</span>
+                        <span id="final-score" class="score-value">0</span>
+                    </div>
+                    
+                    <div class="score-breakdown">
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Correct Answers:</span>
+                            <span id="correct-count">0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Accuracy:</span>
+                            <span id="accuracy">0%</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Time Bonus:</span>
+                            <span id="time-bonus">0</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="performance-chart">
+                    <h3>Performance Overview</h3>
+                    <canvas id="results-chart" width="300" height="150"></canvas>
+                </div>
+                
+                <div class="action-buttons">
+                    <button id="restart-btn" class="action-btn primary">
+                        <i class="fas fa-redo"></i>
+                        Take Quiz Again
+                    </button>
+                    <button id="review-btn" class="action-btn secondary">
+                        <i class="fas fa-eye"></i>
+                        Review Answers
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Loading...</p>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="script.js?v=1.8&unicode-fixed"></script>
+</body>
+</html>
