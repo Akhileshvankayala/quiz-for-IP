@@ -11,12 +11,14 @@ import java.net.InetSocketAddress;
  * This serves as the entry point and HTTP server setup
  */
 public class QuizApplication {
-    private static final int PORT = 8080;
     
     public static void main(String[] args) {
         try {
+            // Get port from environment variable or use default
+            int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "8080"));
+            
             // Initialize the HTTP server
-            HttpServer server = HttpServer.create(new InetSocketAddress(PORT), 0);
+            HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
             
             // Initialize services
             QuizService quizService = new QuizService();
@@ -35,7 +37,7 @@ public class QuizApplication {
             // Enable CORS for all endpoints
             server.setExecutor(null);
             
-            System.out.println("🚀 Quiz Application Server started on http://localhost:" + PORT);
+            System.out.println("🚀 Quiz Application Server started on http://localhost:" + port);
             System.out.println("📚 Open your browser and navigate to the URL above to start the quiz!");
             System.out.println("💡 Features: Custom Data Structures (Stack & LinkedList), Java Questions, Timer, Fun Facts!");
             System.out.println("🎯 Press Ctrl+C to stop the server");
