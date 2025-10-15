@@ -60,10 +60,30 @@ IP-Quiz/
 
 ### Prerequisites
 - Java JDK 8 or higher
+- Python 3.x (for automation script)
 - Modern web browser
 - Git (for cloning)
 
-### Installation & Running
+### Quick Start (Recommended)
+
+**One-Command Execution:**
+```bash
+# Clone the repository
+git clone https://github.com/Akhileshvankayala/quiz-for-IP.git
+cd quiz-for-IP
+
+# Run the complete automation script
+python run-quiz.py
+```
+
+The automation script will:
+- ✅ Verify directory structure and Java installation
+- ✅ Create necessary output directories
+- ✅ Compile all Java source files
+- ✅ Start the quiz server automatically
+- ✅ Open the application at `http://localhost:8080`
+
+### Manual Installation (Alternative)
 
 1. **Clone the repository**
    ```bash
@@ -73,16 +93,26 @@ IP-Quiz/
 
 2. **Compile the Java backend**
    ```bash
-   javac -d backend\bin -sourcepath backend\src\main\java backend\src\main\java\com\quiz\QuizApplication.java
+   cd backend
+   javac -d bin -cp "src\main\java" src\main\java\com\quiz\*.java src\main\java\com\quiz\*\*.java
    ```
 
 3. **Start the server**
    ```bash
-   java -cp "backend\bin" com.quiz.QuizApplication
+   java -cp bin com.quiz.QuizApplication
    ```
 
 4. **Access the application**
    Open your browser and navigate to: `http://localhost:8080`
+
+### Available Automation Scripts
+
+The project includes multiple automation scripts for different platforms:
+
+- **`run-quiz.py`** - Cross-platform Python script (Recommended)
+- **`run-quiz.bat`** - Windows batch file
+- **`run-quiz.ps1`** - PowerShell script
+- **`run-quiz.sh`** - Linux/Mac shell script
 
 ## 🎮 How to Play
 
@@ -118,6 +148,13 @@ IP-Quiz/
 - Session management
 - JSON response formatting
 - Static file serving
+
+### Build Automation
+- **Cross-platform deployment scripts** - Python, Batch, PowerShell, Shell
+- **Automated compilation process** - Handles all Java dependencies
+- **Environment validation** - Checks Java installation and project structure
+- **One-command execution** - Complete setup and launch automation
+- **Professional DevOps practices** - Streamlined development workflow
 
 ### Frontend Features
 - Async/await for API calls
